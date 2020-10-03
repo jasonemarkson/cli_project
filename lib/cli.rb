@@ -18,6 +18,12 @@ class CLI
         print_park(parks)
         puts ""
         puts "Type a number listed to see more details or type 'exit' to exit"
+        puts ""
+        inp = gets.strip.downcase
+        while inp != 'exit' do
+            park = Park.find_by_state(@state)[inp.to_i - 1]
+            API.get_park_info(park)
+        end 
     end
 
     def print_park(p)
@@ -25,7 +31,7 @@ class CLI
         puts "Take a look at these beautiful attraction(s) in #{@state.upcase}:"
         puts ""
         p.each_with_index do |obj, i|
-                puts "#{i + 1}. #{obj.name}"
+            puts "#{i + 1}. #{obj.name}"
         end
         puts ""
     end
