@@ -6,8 +6,10 @@ class API
         uri = URI(url)
         response = Net::HTTP.get(uri)
         parks = JSON.parse(response)["data"]
+        new_state = State.new(state.upcase)
         parks.each do |p|
-            Park.new(name: p["fullName"], park_code: p["parkCode"], state: state.upcase)
+            new_park = Park.new(name: p["fullName"], park_code: p["parkCode"], state: state.upcase)
+            new_state.parks << new_park
         end
     end
 
@@ -16,6 +18,5 @@ class API
         uri = URI(url)
         response = Net::HTTP.get(uri)
         park_code = JSON.parse(response)["data"]
-        binding.pry
     end
 end

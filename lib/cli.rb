@@ -21,7 +21,7 @@ class CLI
         puts ""
         inp = gets.strip.downcase
         while inp != 'exit' do
-            park = Park.find_by_state(@state)[inp.to_i - 1]
+            park = State.find_by_state(@state).parks[inp.to_i - 1]
             API.get_park_info(park)
         end 
     end

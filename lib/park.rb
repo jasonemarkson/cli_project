@@ -18,7 +18,5 @@ class Park
         @@all
     end
 
-    #def self.find_by_state(state)
-    #    @@all.select { |park| park.state == state.upcase }
-    #end
+    
 end
