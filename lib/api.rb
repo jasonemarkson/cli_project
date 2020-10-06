@@ -8,7 +8,7 @@ class API
         parks = JSON.parse(response)["data"]
         new_state = State.new(state.upcase)
         parks.each do |p|
-            new_park = Park.new(name: p["fullName"], park_code: p["parkCode"], state: state.upcase)
+            new_park = Park.new(name: p["fullName"], park_code: p["parkCode"], state: state.upcase, designation: p["designation"])
             new_state.parks << new_park
         end
     end
@@ -17,6 +17,7 @@ class API
         url = "https://developer.nps.gov/api/v1/parks?parkCode=#{park.park_code}&api_key=a0pycXYjNhLyJ0vQ3vQI9UfbjXN0Ii7Gf8aUzM74"
         uri = URI(url)
         response = Net::HTTP.get(uri)
-        park_code = JSON.parse(response)["data"]
+        park_code = JSON.parse(response)["data"][0]
+        binding.pry
     end
 end

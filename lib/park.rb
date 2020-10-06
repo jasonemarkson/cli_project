@@ -3,15 +3,18 @@
 # save all parks created
 
 class Park
-    attr_accessor :name, :park_code, :state
+    attr_accessor :name, :park_code, :state, :designation, :activities
 
     @@all = []
 
-    def initialize(name:, park_code:, state:)
+    def initialize(name:, park_code:, state:, designation:)
         @name = name
         @park_code = park_code
         @state = state
+        @designation = designation
+        @activities = []
         @@all << self
+        #binding.pry 
     end
 
     def self.all
