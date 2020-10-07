@@ -3,23 +3,25 @@
 # save all parks created
 
 class Park
-    attr_accessor :name, :park_code, :state, :designation, :activities
+    attr_accessor :name, :park_code, :state, :description, :activities
 
     @@all = []
 
-    def initialize(name:, park_code:, state:, designation:)
+    def initialize(name:, park_code:, state:, description:)
         @name = name
         @park_code = park_code
         @state = state
-        @designation = designation
+        @description = description
         @activities = []
         @@all << self
-        #binding.pry 
     end
 
     def self.all
         @@all
     end
 
+    def self.find (park)
+        @@all.find { |p| p == park }
+    end
     
 end

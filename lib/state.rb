@@ -14,8 +14,8 @@ class State
     end
 
     def self.find_by_state(state)
-        @@all.find do |park|
-            park.name == state.upcase
+        @@all.find do |s|
+            s.name == state.upcase
         end
     end
 end
