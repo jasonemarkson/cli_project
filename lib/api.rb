@@ -18,6 +18,9 @@ class API
         uri = URI(url)
         response = Net::HTTP.get(uri)
         park_code = JSON.parse(response)["data"][0]
+        park.url = park_code["url"]
+        park.address = park_code["addresses"][0]
+        park.directions = park_code["directionsInfo"]
     end
 
     def self.get_park_contact_info(park)
@@ -26,7 +29,7 @@ class API
         response = Net::HTTP.get(uri)
         contact_info = JSON.parse(response)["data"][0]["contacts"]["phoneNumbers"]
         contact_info.each do |x|
-            x["phoneNumber"]
+            park.phone_number = x["phoneNumber"]
         end 
     end
 

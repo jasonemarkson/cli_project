@@ -3,7 +3,7 @@
 # save all parks created
 
 class Park
-    attr_accessor :name, :park_code, :state, :description, :activities
+    attr_accessor :name, :park_code, :state, :description, :activities, :phone_number, :directions, :url, :address
 
     @@all = []
 

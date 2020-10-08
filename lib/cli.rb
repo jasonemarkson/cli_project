@@ -15,21 +15,27 @@ class CLI
                 print_park(State.find_by_state(@state).parks)
             elsif inp.to_i > 0 && inp.to_i <= State.find_by_state(@state).parks.length
                 park = State.find_by_state(@state).parks[inp.to_i - 1]
-                API.get_park_info(park)
+                API.get_park_info(park) if !park.url
                 print_park_details(park)
+                puts ""
+                puts "Type 'contact' to get park contact info, address, directions"
+                puts ""
             elsif inp == 'state'
                 ask_user_new_state
             elsif inp == 'contact'
-                API.get_park_contact_info(park)
+                API.get_park_contact_info(park) if !park.phone_number
                 print_contact_details(park)
             else
+                puts ""
                 puts "Please type in an ACTUAL option SIR! Thank ya very much ;)"
+                puts ""
             end
             ask_user
-            puts "OR type 'contact' to get park contact info, address, directions"
             inp = gets.strip.downcase
         end
-        puts "Goodbye...and happy trails to you!"
+        puts "Goodbye..."
+        sleep 1 
+        puts "...and happy trails to you!"
     end
 
 
@@ -37,7 +43,7 @@ class CLI
 
     def print_park(p)
         puts ""
-        puts "Take a look at these beautiful attraction(s) in #{@state.upcase}:"
+        puts "Take a look at the beautiful attraction(s) in #{@state.upcase}:"
         puts ""
         p.each_with_index do |obj, i|
             puts "#{i + 1}. #{obj.name}"
@@ -46,17 +52,16 @@ class CLI
     end
 
     def print_park_details(park)
-        binding.pry
         puts ""
         puts "
-        Quick Info: 
-        
-            Park Name: #{park.name}
-
-            State: #{park.state}
-
-            Description: #{park.description}
-                "
+        ------------------------------------------------------------------------------------
+        Park Name: #{park.name}
+        ------------------------------------------------------------------------------------
+        State: #{park.state}
+        ------------------------------------------------------------------------------------
+        Description: #{park.description} 
+        ------------------------------------------------------------------------------------
+        "
         puts ""
     end
 
@@ -69,12 +74,20 @@ class CLI
     end
 
     def ask_user_new_state
+        valid_input = ["al", "ak", "az", "ar", "ca", "co", "ct", "de", "dc", "fl", "ga", "hi", "id", "il", "in", "ia", "ks", "ky", "la", "me", "md", "ma", "mi", "mn", "ms", "mo", "mt", "ne", "nv", "nh", "nj", "nm", "ny", "nc", "nd", "oh", "ok", "or", "pa", "ri", "sc", "sd", "tn", "tx", "ut", "vt", "va", "wv", "wi", "wy", "as", "gu", "mh", "fm", "mp", "pw", "pr", "vi"]
         puts ""
-        puts "Find National Parks by entering your state's 2 digit code"
+        puts "Find National Parks by entering your state's 2 letter code"
         puts ""
         @state = gets.strip.downcase
+        until valid_input.include?(@state)
+            puts ""
+            puts "Invalid 2 letter state code. Please try again."
+            @state = gets.strip.downcase
+        end 
         puts ""
-        API.get_state(@state)
+        if !State.find_by_state(@state)
+            API.get_state(@state)
+        end
         puts ""
         parks = State.find_by_state(@state).parks
         print_park(parks)
@@ -82,23 +95,28 @@ class CLI
 
     
     #want to retrieve the parks phone number; later on more contact information like address, operating hours, URL.
+    #already called on api, access the attributes of the object now
     def print_contact_details(park)
-        c = API.get_park_contact_info(park)[0]["phoneNumber"]
-        a = API.get_park_info(park)["addresses"][0]
-        u = API.get_park_info(park)["url"]
-        d = API.get_park_info(park)["directionsInfo"]
-        
+        binding.pry
         puts ""
         puts "Here is all of contact information for #{park.name}:"
         puts ""
         puts ""
-        puts "      Phone Number: (#{c[0..2]})#{c[3..5]}-#{c[6..9]}"
+        puts "      Phone Number: #{park.phone_number}"
         puts ""
-        puts "      Address: #{a["line1"]}, #{a["city"]}, #{a["stateCode"]} #{a["postalCode"]}"
+            if park.address == nil || park.address == ""
+                puts "      Address: Refer to Park Website"
+            else
+                puts "      Address: #{park.address["line1"]}, #{park.address["city"]}, #{park.address["stateCode"]} #{park.address["postalCode"]}"
+            end
         puts ""
-        puts "      Website: #{u}"
+        puts "      Website: #{park.url}"
         puts ""
-        puts "      Directions: #{d}"
+            if park.directions == nil || park.directions == ""
+                puts "      Address: Refer to Park Website"
+            else
+                puts "      Directions: #{park.directions}"
+            end
         puts ""
     end
 end
