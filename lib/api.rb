@@ -18,6 +18,7 @@ class API
         uri = URI(url)
         response = Net::HTTP.get(uri)
         park_code = JSON.parse(response)["data"][0]
+        park_activities_list = park_code["activities"]
         park.url = park_code["url"]
         park.address = park_code["addresses"][0]
         park.directions = park_code["directionsInfo"]

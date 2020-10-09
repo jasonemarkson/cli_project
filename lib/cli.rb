@@ -27,14 +27,14 @@ class CLI
                 print_contact_details(park)
             else
                 puts ""
-                puts "Please type in an ACTUAL option SIR! Thank ya very much ;)"
+                puts "This isn't Burger King. You can not have it your way! Type in a number from the list."
                 puts ""
             end
             ask_user
             inp = gets.strip.downcase
         end
         puts "Goodbye..."
-        sleep 1 
+        sleep 1
         puts "...and happy trails to you!"
     end
 
@@ -60,8 +60,7 @@ class CLI
         State: #{park.state}
         ------------------------------------------------------------------------------------
         Description: #{park.description} 
-        ------------------------------------------------------------------------------------
-        "
+        ------------------------------------------------------------------------------------"
         puts ""
     end
 
@@ -82,6 +81,7 @@ class CLI
         until valid_input.include?(@state)
             puts ""
             puts "Invalid 2 letter state code. Please try again."
+            puts ""
             @state = gets.strip.downcase
         end 
         puts ""
@@ -97,7 +97,6 @@ class CLI
     #want to retrieve the parks phone number; later on more contact information like address, operating hours, URL.
     #already called on api, access the attributes of the object now
     def print_contact_details(park)
-        binding.pry
         puts ""
         puts "Here is all of contact information for #{park.name}:"
         puts ""
