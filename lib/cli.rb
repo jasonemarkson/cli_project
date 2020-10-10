@@ -6,7 +6,7 @@ class CLI
 
     def start
         puts ""
-        puts "Welcome to NatPark Center!"
+        puts "Welcome to FARLAND!"
         ask_user_new_state
         ask_user
         inp = gets.strip.downcase
