@@ -4,6 +4,8 @@
 require 'pry'
 require 'net/http'
 require 'json'
+require 'colorize'
+require 'colorized_string'
 
 require_relative './lib/api'
 require_relative './lib/cli'
