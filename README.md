@@ -1,5 +1,4 @@
 # cli_project
-test
 
 CLI Project - Flatiron School.
 
